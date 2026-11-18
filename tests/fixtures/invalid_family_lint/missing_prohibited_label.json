@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "id": "refund_700",
+  "domain": "payments",
+  "intent": "Refund a customer $700",
+  "levels": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5"
+  ],
+  "labels": [
+    "valid"
+  ],
+  "description": "Matched family from PolicyTaxonomy Section 3."
+}

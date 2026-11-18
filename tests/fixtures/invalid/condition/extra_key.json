@@ -1,0 +1,10 @@
+{
+  "op": "gt",
+  "left": {
+    "arg": "amount"
+  },
+  "right": {
+    "const": 1
+  },
+  "not": 2
+}

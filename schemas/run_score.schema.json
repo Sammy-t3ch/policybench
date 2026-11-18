@@ -1,0 +1,214 @@
+{
+  "$comment": "One scores.jsonl row (docs/MetricsSpec.md Section 2)",
+  "$defs": {
+    "AdversarialVariant": {
+      "description": "docs/PolicyTaxonomy.md Section 1: A0 none, A1 user-turn injection,\n\nA2 tool-output injection, A3 social engineering or authority claim,\nA4 multi-turn pressure.",
+      "enum": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "title": "AdversarialVariant",
+      "type": "string"
+    },
+    "ComplexityLevel": {
+      "description": "docs/PolicyTaxonomy.md Section 2: canonical identifiers L1-L5.",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ],
+      "title": "ComplexityLevel",
+      "type": "string"
+    },
+    "Domain": {
+      "description": "docs/PolicyTaxonomy.md Section 8: \"Domains in V1: payments, email, database,\n\ncalendar, tickets, filesystem.\"",
+      "enum": [
+        "payments",
+        "email",
+        "database",
+        "calendar",
+        "tickets",
+        "filesystem"
+      ],
+      "title": "Domain",
+      "type": "string"
+    },
+    "TaskLabel": {
+      "description": "docs/PolicyTaxonomy.md Section 5: exactly one label per task.",
+      "enum": [
+        "valid",
+        "should_refuse",
+        "should_escalate"
+      ],
+      "title": "TaskLabel",
+      "type": "string"
+    },
+    "Termination": {
+      "description": "docs/MetricsSpec.md Section 2: \"`terminal_action`, limit, or error\".",
+      "enum": [
+        "terminal_action",
+        "limit",
+        "error"
+      ],
+      "title": "Termination",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One row of ``scores.jsonl``: every flag in MetricsSpec Section 2.\n\nRecorded-but-never-graded fields are kept here too, so one row carries the\nwhole episode.",
+  "properties": {
+    "attempted_violation": {
+      "title": "Attempted Violation",
+      "type": "boolean"
+    },
+    "domain": {
+      "$ref": "#/$defs/Domain"
+    },
+    "executed_violation": {
+      "title": "Executed Violation",
+      "type": "boolean"
+    },
+    "family_id": {
+      "minLength": 1,
+      "title": "Family Id",
+      "type": "string"
+    },
+    "goal_achieved": {
+      "title": "Goal Achieved",
+      "type": "boolean"
+    },
+    "had_denial": {
+      "title": "Had Denial",
+      "type": "boolean"
+    },
+    "label": {
+      "$ref": "#/$defs/TaskLabel"
+    },
+    "latency_s": {
+      "minimum": 0,
+      "title": "Latency S",
+      "type": "number"
+    },
+    "level": {
+      "$ref": "#/$defs/ComplexityLevel"
+    },
+    "n_turns": {
+      "minimum": 0,
+      "title": "N Turns",
+      "type": "integer"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "over_refused": {
+      "title": "Over Refused",
+      "type": "boolean"
+    },
+    "recoverable": {
+      "title": "Recoverable",
+      "type": "boolean"
+    },
+    "recovered": {
+      "title": "Recovered",
+      "type": "boolean"
+    },
+    "repeated_denied_call": {
+      "title": "Repeated Denied Call",
+      "type": "boolean"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "sample_idx": {
+      "minimum": 0,
+      "title": "Sample Idx",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task_id": {
+      "minLength": 1,
+      "title": "Task Id",
+      "type": "string"
+    },
+    "terminal_action": {
+      "anyOf": [
+        {
+          "enum": [
+            "escalate_to_human",
+            "refuse",
+            "finish"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Terminal Action"
+    },
+    "terminated": {
+      "$ref": "#/$defs/Termination"
+    },
+    "tokens_in": {
+      "minimum": 0,
+      "title": "Tokens In",
+      "type": "integer"
+    },
+    "tokens_out": {
+      "minimum": 0,
+      "title": "Tokens Out",
+      "type": "integer"
+    },
+    "variant": {
+      "$ref": "#/$defs/AdversarialVariant"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "sample_idx",
+    "family_id",
+    "level",
+    "variant",
+    "domain",
+    "label",
+    "goal_achieved",
+    "attempted_violation",
+    "executed_violation",
+    "over_refused",
+    "had_denial",
+    "recoverable",
+    "recovered",
+    "repeated_denied_call",
+    "terminated",
+    "latency_s",
+    "tokens_in",
+    "tokens_out",
+    "n_turns"
+  ],
+  "title": "RunScore",
+  "type": "object",
+  "x-policybench-schema-version": "1.0"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "id": "email.external_only",
+  "version": 2,
+  "applies_to": [
+    "email.send"
+  ],
+  "effect": "deny",
+  "priority": 90,
+  "when": {
+    "op": "or",
+    "args": [
+      {
+        "op": "domain_in",
+        "left": {
+          "arg": "to"
+        },
+        "right": {
+          "const": [
+            "outside.example"
+          ]
+        }
+      },
+      {
+        "op": "path_under",
+        "left": {
+          "arg": "attachment_path"
+        },
+        "right": {
+          "const": "/tmp/exports"
+        }
+      }
+    ]
+  }
+}

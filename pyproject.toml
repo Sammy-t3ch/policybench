@@ -25,11 +25,17 @@ dev = [
     "mypy",
 ]
 
+[project.scripts]
+policybench = "policybench.cli:main"
+
 [project.urls]
 Repository = "https://github.com/Sammy-t3ch/policybench"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+policybench = ["py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -38,6 +44,14 @@ addopts = "-q"
 [tool.ruff]
 target-version = "py312"
 line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+# PEP 695 `type X = ...` is 3.12-only syntax. The recursive aliases in these
+# modules use typing.TypeAliasType instead so the package still imports in a
+# local Python 3.11 sandbox (CI is 3.12 and authoritative). See docs/DECISIONS.md H9.
+"src/policybench/models/base.py" = ["UP040"]
+"src/policybench/models/condition.py" = ["UP040"]
+"src/policybench/models/trace.py" = ["UP040"]
 
 [tool.mypy]
 python_version = "3.12"

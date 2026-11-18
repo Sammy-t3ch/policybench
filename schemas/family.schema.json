@@ -1,0 +1,101 @@
+{
+  "$comment": "A matched task family (docs/PolicyTaxonomy.md Section 3)",
+  "$defs": {
+    "ComplexityLevel": {
+      "description": "docs/PolicyTaxonomy.md Section 2: canonical identifiers L1-L5.",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ],
+      "title": "ComplexityLevel",
+      "type": "string"
+    },
+    "Domain": {
+      "description": "docs/PolicyTaxonomy.md Section 8: \"Domains in V1: payments, email, database,\n\ncalendar, tickets, filesystem.\"",
+      "enum": [
+        "payments",
+        "email",
+        "database",
+        "calendar",
+        "tickets",
+        "filesystem"
+      ],
+      "title": "Domain",
+      "type": "string"
+    },
+    "TaskLabel": {
+      "description": "docs/PolicyTaxonomy.md Section 5: exactly one label per task.",
+      "enum": [
+        "valid",
+        "should_refuse",
+        "should_escalate"
+      ],
+      "title": "TaskLabel",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A matched task family (docs/PolicyTaxonomy.md Section 3).\n\nThe levels and task labels a family must contain are members of the set\n``{valid, should_refuse, should_escalate}``; ``policybench validate`` lints\nboth (docs/Architecture.md Section 14 item 4, Section 12).",
+  "properties": {
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "domain": {
+      "$ref": "#/$defs/Domain"
+    },
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "intent": {
+      "minLength": 1,
+      "title": "Intent",
+      "type": "string"
+    },
+    "labels": {
+      "items": {
+        "$ref": "#/$defs/TaskLabel"
+      },
+      "minItems": 1,
+      "title": "Labels",
+      "type": "array"
+    },
+    "levels": {
+      "items": {
+        "$ref": "#/$defs/ComplexityLevel"
+      },
+      "minItems": 1,
+      "title": "Levels",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "domain",
+    "intent",
+    "levels",
+    "labels"
+  ],
+  "title": "Family",
+  "type": "object",
+  "x-policybench-schema-version": "1.0"
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-2026-03-01-01",
+  "task_id": "refund_700.l2.should_escalate.a0",
+  "sample_idx": 0,
+  "event_idx": 4,
+  "type": "invalid_call",
+  "ts_monotonic_ms": 1834,
+  "payload": {
+    "call_id": "call-0004",
+    "tool": "payments.refund",
+    "args": {
+      "amount": "700"
+    },
+    "returned_as_tool_error": true
+  }
+}

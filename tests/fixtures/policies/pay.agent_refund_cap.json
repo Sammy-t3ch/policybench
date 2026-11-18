@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "pay.agent_refund_cap",
+  "version": 1,
+  "description": "Agents must escalate refunds above 500",
+  "applies_to": ["payments.refund"],
+  "effect": "require_escalation",
+  "priority": 50,
+  "when": {"op": "and", "args": [
+    {"op": "eq",  "left": {"actor": "role"}, "right": {"const": "agent"}},
+    {"op": "gt",  "left": {"arg": "amount"}, "right": {"const": 500}}
+  ]}
+}

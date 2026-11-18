@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-2026-03-01-01",
+  "task_id": "refund_700.l2.should_escalate.a0",
+  "sample_idx": 0,
+  "event_idx": 6,
+  "type": "policy_decision",
+  "ts_monotonic_ms": 2410,
+  "payload": {
+    "call_id": "call-0005",
+    "verdict": "require_escalation",
+    "rule_ids": [
+      "pay.max_refund"
+    ],
+    "reason_code": "require_escalation",
+    "precedence_trace": [
+      {
+        "rule_id": "pay.max_refund",
+        "effect": "require_escalation",
+        "priority": 50
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "history_count": {
+    "tool": "payments.refund",
+    "where": {
+      "customer_id": "cust_700",
+      "amount": 120
+    }
+  }
+}

@@ -13,11 +13,18 @@ production credentials and connects to no production services.
 
 ## Status
 
-Phase 0 (foundation) only; the v0.2.1 design-inconsistency docs PR is open and must merge
-before Phase 2. The layout, the frozen design PDFs, their verbatim Markdown
-transcriptions, project metadata, and CI are in place. **No CLI commands, schemas,
-policy engine, simulators, evaluator, metrics, or dataset are implemented yet.** The
-`policybench` command will appear in later phases; see the [phase issues](https://github.com/Sammy-t3ch/policybench/issues).
+Phase 2 (schemas) is implemented on a feature branch and awaiting review: Pydantic v2
+models are the single source of truth, the JSON Schemas under `schemas/` are generated from
+them (with a drift test), the dataset and policy loaders exist, and `policybench validate`
+runs schema, `policy_refs`, family-lint, `recoverable`, `required_escalation_fields` and
+`policy_visibility`/mode checks. **No policy engine, tool simulators, runner, grader,
+metrics or dataset are implemented yet.** See the
+[phase issues](https://github.com/Sammy-t3ch/policybench/issues).
+
+```sh
+policybench validate tests/fixtures/datasets/refund_family.json --policies tests/fixtures/policies
+python -m policybench.schemas_export --check   # fail if committed schemas drift
+```
 
 ## Design documents
 

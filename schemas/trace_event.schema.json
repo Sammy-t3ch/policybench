@@ -1,0 +1,1302 @@
+{
+  "$comment": "One JSONL trace event (docs/Architecture.md Section 9)",
+  "$defs": {
+    "EpisodeEndEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/EpisodeEndPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "episode_end",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "EpisodeEndEvent",
+      "type": "object"
+    },
+    "EpisodeEndPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "final_state_hash": {
+          "minLength": 1,
+          "title": "Final State Hash",
+          "type": "string"
+        },
+        "n_turns": {
+          "minimum": 0,
+          "title": "N Turns",
+          "type": "integer"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "terminal_action": {
+          "anyOf": [
+            {
+              "enum": [
+                "escalate_to_human",
+                "refuse",
+                "finish"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Terminal Action"
+        },
+        "terminated": {
+          "$ref": "#/$defs/Termination"
+        }
+      },
+      "required": [
+        "terminated",
+        "final_state_hash",
+        "n_turns"
+      ],
+      "title": "EpisodeEndPayload",
+      "type": "object"
+    },
+    "EpisodeStartEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/EpisodeStartPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "episode_start",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "EpisodeStartEvent",
+      "type": "object"
+    },
+    "EpisodeStartPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_version": {
+          "title": "Dataset Version",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "enforce",
+            "audit"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "policy_set_version": {
+          "title": "Policy Set Version",
+          "type": "string"
+        },
+        "policy_visibility": {
+          "enum": [
+            "full",
+            "summary",
+            "none"
+          ],
+          "title": "Policy Visibility",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "mode",
+        "policy_visibility",
+        "seed",
+        "dataset_version",
+        "policy_set_version"
+      ],
+      "title": "EpisodeStartPayload",
+      "type": "object"
+    },
+    "InjectionDeliveredEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/InjectionDeliveredPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "injection_delivered",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "InjectionDeliveredEvent",
+      "type": "object"
+    },
+    "InjectionDeliveredPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "enum": [
+            "user_turn",
+            "tool_output",
+            "document"
+          ],
+          "title": "Channel",
+          "type": "string"
+        },
+        "injection_id": {
+          "minLength": 1,
+          "title": "Injection Id",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "injection_id",
+        "channel",
+        "text"
+      ],
+      "title": "InjectionDeliveredPayload",
+      "type": "object"
+    },
+    "InvalidCallEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/InvalidCallPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "invalid_call",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "InvalidCallEvent",
+      "type": "object"
+    },
+    "InvalidCallPayload": {
+      "additionalProperties": false,
+      "description": "docs/Architecture.md Section 5: a schema failure is \"logged as an\n\n`invalid_call` event and returned to the agent as a tool error; it is not a\npolicy violation.\"",
+      "properties": {
+        "args": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Args",
+          "type": "object"
+        },
+        "call_id": {
+          "minLength": 1,
+          "title": "Call Id",
+          "type": "string"
+        },
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Errors",
+          "type": "array"
+        },
+        "returned_as_tool_error": {
+          "const": true,
+          "default": true,
+          "title": "Returned As Tool Error",
+          "type": "boolean"
+        },
+        "tool": {
+          "minLength": 1,
+          "title": "Tool",
+          "type": "string"
+        }
+      },
+      "required": [
+        "call_id",
+        "tool",
+        "errors"
+      ],
+      "title": "InvalidCallPayload",
+      "type": "object"
+    },
+    "JsonValue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "array"
+        },
+        {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "MetaActionEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/MetaActionPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "meta_action",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "MetaActionEvent",
+      "type": "object"
+    },
+    "MetaActionPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "escalate_to_human",
+            "refuse",
+            "ask_clarification",
+            "finish"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "context": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "$ref": "#/$defs/JsonValue"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "enum": [
+                "approved",
+                "denied",
+                "pending"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outcome"
+        },
+        "question": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Question"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "MetaActionPayload",
+      "type": "object"
+    },
+    "ModelRequestEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/ModelRequestPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "model_request",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "ModelRequestEvent",
+      "type": "object"
+    },
+    "ModelRequestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Messages",
+          "type": "array"
+        },
+        "params": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Params",
+          "type": "object"
+        },
+        "tools": {
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Tools",
+          "type": "array"
+        }
+      },
+      "required": [
+        "messages"
+      ],
+      "title": "ModelRequestPayload",
+      "type": "object"
+    },
+    "ModelResponseEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/ModelResponsePayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "model_response",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "ModelResponseEvent",
+      "type": "object"
+    },
+    "ModelResponsePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "raw": {
+          "$ref": "#/$defs/JsonValue"
+        }
+      },
+      "required": [
+        "raw"
+      ],
+      "title": "ModelResponsePayload",
+      "type": "object"
+    },
+    "PolicyDecisionEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/PolicyDecisionPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "policy_decision",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "PolicyDecisionEvent",
+      "type": "object"
+    },
+    "PolicyDecisionPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "call_id": {
+          "minLength": 1,
+          "title": "Call Id",
+          "type": "string"
+        },
+        "precedence_trace": {
+          "items": {
+            "$ref": "#/$defs/PrecedenceStep"
+          },
+          "title": "Precedence Trace",
+          "type": "array"
+        },
+        "reason_code": {
+          "minLength": 1,
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "rule_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rule Ids",
+          "type": "array"
+        },
+        "verdict": {
+          "$ref": "#/$defs/Verdict"
+        }
+      },
+      "required": [
+        "call_id",
+        "verdict",
+        "reason_code"
+      ],
+      "title": "PolicyDecisionPayload",
+      "type": "object"
+    },
+    "PolicyEffect": {
+      "description": "docs/Architecture.md Section 6.1: \"Effects: `deny`, `require_escalation`,\n\n`require_prior`\". ``allow`` is the no-rule default, not an effect\n(Section 6.3).",
+      "enum": [
+        "deny",
+        "require_escalation",
+        "require_prior"
+      ],
+      "title": "PolicyEffect",
+      "type": "string"
+    },
+    "PrecedenceStep": {
+      "additionalProperties": false,
+      "description": "One entry of ``Decision.precedence_trace`` (Section 6.3 resolution order).",
+      "properties": {
+        "effect": {
+          "$ref": "#/$defs/PolicyEffect"
+        },
+        "priority": {
+          "title": "Priority",
+          "type": "integer"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule_id",
+        "effect",
+        "priority"
+      ],
+      "title": "PrecedenceStep",
+      "type": "object"
+    },
+    "StateSnapshotEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/StateSnapshotPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "state_snapshot",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "StateSnapshotEvent",
+      "type": "object"
+    },
+    "StateSnapshotPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "enum": [
+            "episode_start",
+            "state_change",
+            "episode_end"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "state": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "State",
+          "type": "object"
+        },
+        "state_hash": {
+          "minLength": 1,
+          "title": "State Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "state_hash",
+        "reason"
+      ],
+      "title": "StateSnapshotPayload",
+      "type": "object"
+    },
+    "Termination": {
+      "description": "docs/MetricsSpec.md Section 2: \"`terminal_action`, limit, or error\".",
+      "enum": [
+        "terminal_action",
+        "limit",
+        "error"
+      ],
+      "title": "Termination",
+      "type": "string"
+    },
+    "ToolCallProposedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/ToolCallProposedPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "tool_call_proposed",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "ToolCallProposedEvent",
+      "type": "object"
+    },
+    "ToolCallProposedPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Args",
+          "type": "object"
+        },
+        "call_id": {
+          "minLength": 1,
+          "title": "Call Id",
+          "type": "string"
+        },
+        "tool": {
+          "minLength": 1,
+          "title": "Tool",
+          "type": "string"
+        }
+      },
+      "required": [
+        "call_id",
+        "tool"
+      ],
+      "title": "ToolCallProposedPayload",
+      "type": "object"
+    },
+    "ToolResultEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/ToolResultPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "tool_result",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "ToolResultEvent",
+      "type": "object"
+    },
+    "ToolResultPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "call_id": {
+          "minLength": 1,
+          "title": "Call Id",
+          "type": "string"
+        },
+        "is_error": {
+          "default": false,
+          "title": "Is Error",
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "state_hash_after": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State Hash After"
+        },
+        "state_hash_before": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State Hash Before"
+        },
+        "tool": {
+          "minLength": 1,
+          "title": "Tool",
+          "type": "string"
+        }
+      },
+      "required": [
+        "call_id",
+        "tool",
+        "result"
+      ],
+      "title": "ToolResultPayload",
+      "type": "object"
+    },
+    "UserTurnEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_idx": {
+          "minimum": 0,
+          "title": "Event Idx",
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/$defs/UserTurnPayload"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sample_idx": {
+          "minimum": 0,
+          "title": "Sample Idx",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        },
+        "ts_monotonic_ms": {
+          "minimum": 0,
+          "title": "Ts Monotonic Ms",
+          "type": "integer"
+        },
+        "type": {
+          "const": "user_turn",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "task_id",
+        "sample_idx",
+        "event_idx",
+        "ts_monotonic_ms",
+        "type",
+        "payload"
+      ],
+      "title": "UserTurnEvent",
+      "type": "object"
+    },
+    "UserTurnPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ],
+      "title": "UserTurnPayload",
+      "type": "object"
+    },
+    "Verdict": {
+      "description": "docs/Architecture.md Section 4 (Decision object).",
+      "enum": [
+        "allow",
+        "deny",
+        "require_escalation"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "episode_end": "#/$defs/EpisodeEndEvent",
+      "episode_start": "#/$defs/EpisodeStartEvent",
+      "injection_delivered": "#/$defs/InjectionDeliveredEvent",
+      "invalid_call": "#/$defs/InvalidCallEvent",
+      "meta_action": "#/$defs/MetaActionEvent",
+      "model_request": "#/$defs/ModelRequestEvent",
+      "model_response": "#/$defs/ModelResponseEvent",
+      "policy_decision": "#/$defs/PolicyDecisionEvent",
+      "state_snapshot": "#/$defs/StateSnapshotEvent",
+      "tool_call_proposed": "#/$defs/ToolCallProposedEvent",
+      "tool_result": "#/$defs/ToolResultEvent",
+      "user_turn": "#/$defs/UserTurnEvent"
+    },
+    "propertyName": "type"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/EpisodeStartEvent"
+    },
+    {
+      "$ref": "#/$defs/ModelRequestEvent"
+    },
+    {
+      "$ref": "#/$defs/ModelResponseEvent"
+    },
+    {
+      "$ref": "#/$defs/ToolCallProposedEvent"
+    },
+    {
+      "$ref": "#/$defs/InvalidCallEvent"
+    },
+    {
+      "$ref": "#/$defs/PolicyDecisionEvent"
+    },
+    {
+      "$ref": "#/$defs/ToolResultEvent"
+    },
+    {
+      "$ref": "#/$defs/StateSnapshotEvent"
+    },
+    {
+      "$ref": "#/$defs/UserTurnEvent"
+    },
+    {
+      "$ref": "#/$defs/InjectionDeliveredEvent"
+    },
+    {
+      "$ref": "#/$defs/MetaActionEvent"
+    },
+    {
+      "$ref": "#/$defs/EpisodeEndEvent"
+    }
+  ],
+  "x-policybench-schema-version": "1.0"
+}

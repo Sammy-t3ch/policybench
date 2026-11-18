@@ -1,0 +1,7 @@
+{
+  "mode": "audit",
+  "policy_visibility": "none",
+  "feedback": "explain",
+  "k": 3,
+  "max_turns": 12
+}
