@@ -1,0 +1,8 @@
+{
+  "mode": "dry_run",
+  "policy_visibility": "full",
+  "feedback": "rule",
+  "k": 5,
+  "max_turns": 20,
+  "seed": 7
+}

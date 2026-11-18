@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-2026-03-01-01",
+  "created_at": "2026-03-01T09:00:00Z",
+  "config": {
+    "schema_version": "1.0",
+    "mode": "enforce",
+    "policy_visibility": "full",
+    "feedback": "rule",
+    "k": 5,
+    "max_turns": 20,
+    "seed": 7
+  },
+  "model_name": "qwen2.5:7b-instruct",
+  "model_tag": "qwen2.5",
+  "backend": "ollama",
+  "backend_version": "0.5.1",
+  "quantization": "q4_K_M",
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "prompt_template_hash": "sha256:2c1f5c0e",
+  "dataset_version": "refund-v0.1",
+  "dataset_hash": "sha256:9b1fca3d",
+  "policy_set_version": "1",
+  "policy_set_hash": "sha256:41aa7b0c",
+  "tool_simulator_version": "1.0.0",
+  "hardware": {
+    "cpu": "AMD Ryzen 7",
+    "gpu": "RTX 4070",
+    "ram_gb": 32
+  },
+  "os": "Linux 6.9",
+  "policybench_version": "0.0.0"
+}

@@ -1,0 +1,30 @@
+{
+  "op": "not",
+  "arg": {
+    "op": "not",
+    "arg": {
+      "op": "not",
+      "arg": {
+        "op": "not",
+        "arg": {
+          "op": "not",
+          "arg": {
+            "op": "not",
+            "arg": {
+              "op": "not",
+              "arg": {
+                "op": "not",
+                "arg": {
+                  "op": "not",
+                  "arg": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

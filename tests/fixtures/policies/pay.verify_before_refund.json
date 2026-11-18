@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "id": "pay.verify_before_refund",
+  "version": 1,
+  "description": "The customer must be verified before any refund",
+  "applies_to": ["payments.refund"],
+  "effect": "require_prior",
+  "priority": 60,
+  "when": {"op": "not", "arg": {"history_has": {"tool": "customer.verify", "where": {"customer_id": "cust_700"}}}}
+}

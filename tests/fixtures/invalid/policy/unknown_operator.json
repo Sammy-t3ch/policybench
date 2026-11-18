@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "pay.max_refund",
+  "version": 1,
+  "description": "Refunds above 500 require human approval",
+  "applies_to": [
+    "payments.refund"
+  ],
+  "effect": "require_escalation",
+  "priority": 50,
+  "when": {
+    "op": "between",
+    "left": {
+      "arg": "amount"
+    },
+    "right": {
+      "const": [
+        1,
+        2
+      ]
+    }
+  }
+}

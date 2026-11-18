@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "id": "pay.block_refund",
+  "version": 1,
+  "description": "Refunds are not permitted for this agent (L1)",
+  "applies_to": ["payments.refund"],
+  "effect": "deny",
+  "priority": 100,
+  "when": {"op": "gte", "left": {"const": 0}, "right": {"const": 0}}
+}

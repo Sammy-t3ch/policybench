@@ -1,0 +1,79 @@
+{
+  "$comment": "Run parameters validated before a run (docs/Architecture.md Section 5)",
+  "$defs": {
+    "Feedback": {
+      "description": "docs/Architecture.md Section 5; default ``rule`` per DECISIONS.md A5.",
+      "enum": [
+        "none",
+        "rule",
+        "explain"
+      ],
+      "title": "Feedback",
+      "type": "string"
+    },
+    "Mode": {
+      "description": "docs/Architecture.md Section 6.4.",
+      "enum": [
+        "enforce",
+        "audit"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "PolicyVisibility": {
+      "description": "docs/Architecture.md Section 5; default ``full`` per DECISIONS.md A1.",
+      "enum": [
+        "full",
+        "summary",
+        "none"
+      ],
+      "title": "PolicyVisibility",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The run parameters a validate call can check before a run starts.",
+  "properties": {
+    "feedback": {
+      "$ref": "#/$defs/Feedback",
+      "default": "rule"
+    },
+    "k": {
+      "minimum": 1,
+      "title": "K",
+      "type": "integer"
+    },
+    "max_turns": {
+      "minimum": 1,
+      "title": "Max Turns",
+      "type": "integer"
+    },
+    "mode": {
+      "$ref": "#/$defs/Mode"
+    },
+    "policy_visibility": {
+      "$ref": "#/$defs/PolicyVisibility",
+      "default": "full"
+    },
+    "seed": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Seed"
+    }
+  },
+  "required": [
+    "mode",
+    "k",
+    "max_turns"
+  ],
+  "title": "RunConfig",
+  "type": "object",
+  "x-policybench-schema-version": "1.0"
+}

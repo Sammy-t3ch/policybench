@@ -1,0 +1,258 @@
+{
+  "$comment": "One manifest.json per run (docs/Architecture.md Section 10)",
+  "$defs": {
+    "Feedback": {
+      "description": "docs/Architecture.md Section 5; default ``rule`` per DECISIONS.md A5.",
+      "enum": [
+        "none",
+        "rule",
+        "explain"
+      ],
+      "title": "Feedback",
+      "type": "string"
+    },
+    "Hardware": {
+      "additionalProperties": false,
+      "description": "docs/Architecture.md Section 10: \"hardware (CPU, GPU, RAM)\".",
+      "properties": {
+        "cpu": {
+          "minLength": 1,
+          "title": "Cpu",
+          "type": "string"
+        },
+        "gpu": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gpu"
+        },
+        "ram_gb": {
+          "exclusiveMinimum": 0,
+          "title": "Ram Gb",
+          "type": "number"
+        }
+      },
+      "required": [
+        "cpu",
+        "ram_gb"
+      ],
+      "title": "Hardware",
+      "type": "object"
+    },
+    "Mode": {
+      "description": "docs/Architecture.md Section 6.4.",
+      "enum": [
+        "enforce",
+        "audit"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "PolicyVisibility": {
+      "description": "docs/Architecture.md Section 5; default ``full`` per DECISIONS.md A1.",
+      "enum": [
+        "full",
+        "summary",
+        "none"
+      ],
+      "title": "PolicyVisibility",
+      "type": "string"
+    },
+    "RunConfig": {
+      "additionalProperties": false,
+      "description": "The run parameters a validate call can check before a run starts.",
+      "properties": {
+        "feedback": {
+          "$ref": "#/$defs/Feedback",
+          "default": "rule"
+        },
+        "k": {
+          "minimum": 1,
+          "title": "K",
+          "type": "integer"
+        },
+        "max_turns": {
+          "minimum": 1,
+          "title": "Max Turns",
+          "type": "integer"
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "policy_visibility": {
+          "$ref": "#/$defs/PolicyVisibility",
+          "default": "full"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seed"
+        }
+      },
+      "required": [
+        "mode",
+        "k",
+        "max_turns"
+      ],
+      "title": "RunConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One ``manifest.json`` per run (docs/Architecture.md Section 10).",
+  "properties": {
+    "backend": {
+      "minLength": 1,
+      "title": "Backend",
+      "type": "string"
+    },
+    "backend_version": {
+      "minLength": 1,
+      "title": "Backend Version",
+      "type": "string"
+    },
+    "config": {
+      "$ref": "#/$defs/RunConfig"
+    },
+    "created_at": {
+      "minLength": 1,
+      "title": "Created At",
+      "type": "string"
+    },
+    "dataset_hash": {
+      "minLength": 1,
+      "title": "Dataset Hash",
+      "type": "string"
+    },
+    "dataset_version": {
+      "minLength": 1,
+      "title": "Dataset Version",
+      "type": "string"
+    },
+    "git_commit": {
+      "minLength": 1,
+      "title": "Git Commit",
+      "type": "string"
+    },
+    "hardware": {
+      "$ref": "#/$defs/Hardware"
+    },
+    "model_name": {
+      "minLength": 1,
+      "title": "Model Name",
+      "type": "string"
+    },
+    "model_tag": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Tag"
+    },
+    "os": {
+      "minLength": 1,
+      "title": "Os",
+      "type": "string"
+    },
+    "policy_set_hash": {
+      "minLength": 1,
+      "title": "Policy Set Hash",
+      "type": "string"
+    },
+    "policy_set_version": {
+      "minLength": 1,
+      "title": "Policy Set Version",
+      "type": "string"
+    },
+    "policybench_version": {
+      "minLength": 1,
+      "title": "Policybench Version",
+      "type": "string"
+    },
+    "prompt_template_hash": {
+      "minLength": 1,
+      "title": "Prompt Template Hash",
+      "type": "string"
+    },
+    "quantization": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Quantization"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "temperature": {
+      "minimum": 0,
+      "title": "Temperature",
+      "type": "number"
+    },
+    "tool_simulator_version": {
+      "minLength": 1,
+      "title": "Tool Simulator Version",
+      "type": "string"
+    },
+    "top_p": {
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "title": "Top P",
+      "type": "number"
+    }
+  },
+  "required": [
+    "run_id",
+    "created_at",
+    "config",
+    "model_name",
+    "backend",
+    "backend_version",
+    "temperature",
+    "top_p",
+    "prompt_template_hash",
+    "dataset_version",
+    "dataset_hash",
+    "policy_set_version",
+    "policy_set_hash",
+    "tool_simulator_version",
+    "hardware",
+    "os",
+    "git_commit",
+    "policybench_version"
+  ],
+  "title": "Manifest",
+  "type": "object",
+  "x-policybench-schema-version": "1.0"
+}

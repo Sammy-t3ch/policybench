@@ -1,0 +1,145 @@
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "or",
+      "args": [
+        {
+          "const": true
+        },
+        {
+          "op": "not",
+          "arg": {
+            "const": false
+          }
+        }
+      ]
+    },
+    {
+      "op": "eq",
+      "left": {
+        "actor": "role"
+      },
+      "right": {
+        "const": "agent"
+      }
+    },
+    {
+      "op": "neq",
+      "left": {
+        "object": "sensitivity"
+      },
+      "right": {
+        "const": "public"
+      }
+    },
+    {
+      "op": "lt",
+      "left": {
+        "arg": "amount"
+      },
+      "right": {
+        "const": 10
+      }
+    },
+    {
+      "op": "lte",
+      "left": {
+        "arg": "amount"
+      },
+      "right": {
+        "const": 10.5
+      }
+    },
+    {
+      "op": "gt",
+      "left": {
+        "arg": "amount"
+      },
+      "right": {
+        "const": 0
+      }
+    },
+    {
+      "op": "gte",
+      "left": {
+        "arg": "amount"
+      },
+      "right": {
+        "const": 0
+      }
+    },
+    {
+      "op": "in",
+      "left": {
+        "state": "customer.tier"
+      },
+      "right": {
+        "const": [
+          "gold",
+          "silver"
+        ]
+      }
+    },
+    {
+      "op": "not_in",
+      "left": {
+        "state": "customer.tier"
+      },
+      "right": {
+        "const": [
+          "blocked"
+        ]
+      }
+    },
+    {
+      "op": "domain_in",
+      "left": {
+        "arg": "to"
+      },
+      "right": {
+        "const": [
+          "example.com"
+        ]
+      }
+    },
+    {
+      "op": "startswith",
+      "left": {
+        "arg": "subject"
+      },
+      "right": {
+        "const": "[EXTERNAL]"
+      }
+    },
+    {
+      "op": "path_under",
+      "left": {
+        "arg": "path"
+      },
+      "right": {
+        "const": "/data/reports"
+      }
+    },
+    {
+      "history_has": {
+        "tool": "customer.verify",
+        "where": {
+          "customer_id": "cust_700"
+        }
+      }
+    },
+    {
+      "op": "eq",
+      "left": {
+        "history_count": {
+          "tool": "customer.verify",
+          "where": {}
+        }
+      },
+      "right": {
+        "const": 1
+      }
+    }
+  ]
+}

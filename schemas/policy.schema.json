@@ -1,0 +1,612 @@
+{
+  "$comment": "One policy rule (docs/Architecture.md Section 6.1)",
+  "$defs": {
+    "ActorRef": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "title": "Actor",
+          "type": "string"
+        }
+      },
+      "required": [
+        "actor"
+      ],
+      "title": "ActorRef",
+      "type": "object"
+    },
+    "AndExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "$ref": "#/$defs/Expr"
+          },
+          "title": "Args",
+          "type": "array"
+        },
+        "op": {
+          "const": "and",
+          "title": "Op",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "args"
+      ],
+      "title": "AndExpr",
+      "type": "object"
+    },
+    "ArgRef": {
+      "additionalProperties": false,
+      "properties": {
+        "arg": {
+          "title": "Arg",
+          "type": "string"
+        }
+      },
+      "required": [
+        "arg"
+      ],
+      "title": "ArgRef",
+      "type": "object"
+    },
+    "ConstRef": {
+      "additionalProperties": false,
+      "properties": {
+        "const": {
+          "title": "Const"
+        }
+      },
+      "required": [
+        "const"
+      ],
+      "title": "ConstRef",
+      "type": "object"
+    },
+    "DomainInExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "domain_in",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "DomainInExpr",
+      "type": "object"
+    },
+    "EqExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "eq",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "EqExpr",
+      "type": "object"
+    },
+    "Expr": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AndExpr"
+        },
+        {
+          "$ref": "#/$defs/OrExpr"
+        },
+        {
+          "$ref": "#/$defs/NotExpr"
+        },
+        {
+          "$ref": "#/$defs/EqExpr"
+        },
+        {
+          "$ref": "#/$defs/NeqExpr"
+        },
+        {
+          "$ref": "#/$defs/LtExpr"
+        },
+        {
+          "$ref": "#/$defs/LteExpr"
+        },
+        {
+          "$ref": "#/$defs/GtExpr"
+        },
+        {
+          "$ref": "#/$defs/GteExpr"
+        },
+        {
+          "$ref": "#/$defs/InExpr"
+        },
+        {
+          "$ref": "#/$defs/NotInExpr"
+        },
+        {
+          "$ref": "#/$defs/DomainInExpr"
+        },
+        {
+          "$ref": "#/$defs/StartswithExpr"
+        },
+        {
+          "$ref": "#/$defs/PathUnderExpr"
+        },
+        {
+          "$ref": "#/$defs/ArgRef"
+        },
+        {
+          "$ref": "#/$defs/StateRef"
+        },
+        {
+          "$ref": "#/$defs/ActorRef"
+        },
+        {
+          "$ref": "#/$defs/ObjectRef"
+        },
+        {
+          "$ref": "#/$defs/HistoryHasExpr"
+        },
+        {
+          "$ref": "#/$defs/HistoryCountExpr"
+        },
+        {
+          "$ref": "#/$defs/ConstRef"
+        }
+      ]
+    },
+    "GtExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "gt",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "GtExpr",
+      "type": "object"
+    },
+    "GteExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "gte",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "GteExpr",
+      "type": "object"
+    },
+    "HistoryCountExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "history_count": {
+          "$ref": "#/$defs/HistoryQuery"
+        }
+      },
+      "required": [
+        "history_count"
+      ],
+      "title": "HistoryCountExpr",
+      "type": "object"
+    },
+    "HistoryHasExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "history_has": {
+          "$ref": "#/$defs/HistoryQuery"
+        }
+      },
+      "required": [
+        "history_has"
+      ],
+      "title": "HistoryHasExpr",
+      "type": "object"
+    },
+    "HistoryQuery": {
+      "additionalProperties": false,
+      "description": "Inner object of ``history_has`` / ``history_count``.\n\n``where`` maps field names to constants; every entry must match by equality\n(docs/PolicyTaxonomy.md Section 6).",
+      "properties": {
+        "tool": {
+          "title": "Tool",
+          "type": "string"
+        },
+        "where": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Where",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "where"
+      ],
+      "title": "HistoryQuery",
+      "type": "object"
+    },
+    "InExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "in",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "InExpr",
+      "type": "object"
+    },
+    "JsonValue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "array"
+        },
+        {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "LtExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "lt",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "LtExpr",
+      "type": "object"
+    },
+    "LteExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "lte",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "LteExpr",
+      "type": "object"
+    },
+    "NeqExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "neq",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "NeqExpr",
+      "type": "object"
+    },
+    "NotExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "arg": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "not",
+          "title": "Op",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "arg"
+      ],
+      "title": "NotExpr",
+      "type": "object"
+    },
+    "NotInExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "not_in",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "NotInExpr",
+      "type": "object"
+    },
+    "ObjectRef": {
+      "additionalProperties": false,
+      "properties": {
+        "object": {
+          "title": "Object",
+          "type": "string"
+        }
+      },
+      "required": [
+        "object"
+      ],
+      "title": "ObjectRef",
+      "type": "object"
+    },
+    "OrExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "$ref": "#/$defs/Expr"
+          },
+          "title": "Args",
+          "type": "array"
+        },
+        "op": {
+          "const": "or",
+          "title": "Op",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "args"
+      ],
+      "title": "OrExpr",
+      "type": "object"
+    },
+    "PathUnderExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "path_under",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "PathUnderExpr",
+      "type": "object"
+    },
+    "PolicyEffect": {
+      "description": "docs/Architecture.md Section 6.1: \"Effects: `deny`, `require_escalation`,\n\n`require_prior`\". ``allow`` is the no-rule default, not an effect\n(Section 6.3).",
+      "enum": [
+        "deny",
+        "require_escalation",
+        "require_prior"
+      ],
+      "title": "PolicyEffect",
+      "type": "string"
+    },
+    "StartswithExpr": {
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/Expr"
+        },
+        "op": {
+          "const": "startswith",
+          "title": "Op",
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Expr"
+        }
+      },
+      "required": [
+        "op",
+        "left",
+        "right"
+      ],
+      "title": "StartswithExpr",
+      "type": "object"
+    },
+    "StateRef": {
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "title": "State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "title": "StateRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One policy file.\n\n``docs/Architecture.md`` Section 6.1 gives the shape; ``id`` and the integer\n``version`` are required by the maintainer's Phase 2 instructions.",
+  "properties": {
+    "applies_to": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applies To",
+      "type": "array"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "effect": {
+      "$ref": "#/$defs/PolicyEffect"
+    },
+    "id": {
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "priority": {
+      "minimum": 0,
+      "title": "Priority",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "when": {
+      "$ref": "#/$defs/Expr"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "applies_to",
+    "effect",
+    "priority",
+    "when"
+  ],
+  "title": "Policy",
+  "type": "object",
+  "x-policybench-schema-version": "1.0"
+}

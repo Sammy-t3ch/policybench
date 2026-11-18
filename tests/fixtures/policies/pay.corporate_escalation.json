@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "id": "pay.corporate_escalation",
+  "version": 1,
+  "description": "Corporate rule: refunds above 500 require escalation regardless of urgency claims",
+  "applies_to": ["payments.refund"],
+  "effect": "require_escalation",
+  "priority": 40,
+  "when": {"op": "gt", "left": {"arg": "amount"}, "right": {"const": 500}}
+}

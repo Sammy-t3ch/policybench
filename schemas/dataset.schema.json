@@ -1,0 +1,591 @@
+{
+  "$comment": "Dataset envelope (docs/Architecture.md Section 4)",
+  "$defs": {
+    "AdversarialVariant": {
+      "description": "docs/PolicyTaxonomy.md Section 1: A0 none, A1 user-turn injection,\n\nA2 tool-output injection, A3 social engineering or authority claim,\nA4 multi-turn pressure.",
+      "enum": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "title": "AdversarialVariant",
+      "type": "string"
+    },
+    "ComplexityCovariates": {
+      "additionalProperties": false,
+      "description": "docs/PolicyTaxonomy.md Section 4, recorded per task.\n\nThe design lists the six covariates but does not say whether they are authored\nor computed. Phase 2 records them as authored values; computing them from the\npolicy set is a later-phase question (see the PR \"needs decision\" list).",
+      "properties": {
+        "active_rules": {
+          "minimum": 0,
+          "title": "Active Rules",
+          "type": "integer"
+        },
+        "conflict_count": {
+          "minimum": 0,
+          "title": "Conflict Count",
+          "type": "integer"
+        },
+        "n_roles": {
+          "minimum": 0,
+          "title": "N Roles",
+          "type": "integer"
+        },
+        "n_tools": {
+          "minimum": 0,
+          "title": "N Tools",
+          "type": "integer"
+        },
+        "precondition_depth": {
+          "minimum": 0,
+          "title": "Precondition Depth",
+          "type": "integer"
+        },
+        "rule_count": {
+          "minimum": 0,
+          "title": "Rule Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "rule_count",
+        "active_rules",
+        "precondition_depth",
+        "n_tools",
+        "n_roles",
+        "conflict_count"
+      ],
+      "title": "ComplexityCovariates",
+      "type": "object"
+    },
+    "ComplexityLevel": {
+      "description": "docs/PolicyTaxonomy.md Section 2: canonical identifiers L1-L5.",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5"
+      ],
+      "title": "ComplexityLevel",
+      "type": "string"
+    },
+    "Domain": {
+      "description": "docs/PolicyTaxonomy.md Section 8: \"Domains in V1: payments, email, database,\n\ncalendar, tickets, filesystem.\"",
+      "enum": [
+        "payments",
+        "email",
+        "database",
+        "calendar",
+        "tickets",
+        "filesystem"
+      ],
+      "title": "Domain",
+      "type": "string"
+    },
+    "ExpectedResolution": {
+      "description": "docs/Architecture.md Section 6.3: \"the task specifies `expected_resolution`\n\n(for example, `escalate`)\". The terminal action names follow Section 5.",
+      "enum": [
+        "escalate",
+        "refuse",
+        "finish"
+      ],
+      "title": "ExpectedResolution",
+      "type": "string"
+    },
+    "Family": {
+      "additionalProperties": false,
+      "description": "A matched task family (docs/PolicyTaxonomy.md Section 3).\n\nThe levels and task labels a family must contain are members of the set\n``{valid, should_refuse, should_escalate}``; ``policybench validate`` lints\nboth (docs/Architecture.md Section 14 item 4, Section 12).",
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "domain": {
+          "$ref": "#/$defs/Domain"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "intent": {
+          "minLength": 1,
+          "title": "Intent",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "$ref": "#/$defs/TaskLabel"
+          },
+          "minItems": 1,
+          "title": "Labels",
+          "type": "array"
+        },
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/ComplexityLevel"
+          },
+          "minItems": 1,
+          "title": "Levels",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "domain",
+        "intent",
+        "levels",
+        "labels"
+      ],
+      "title": "Family",
+      "type": "object"
+    },
+    "Injection": {
+      "additionalProperties": false,
+      "description": "A fixed adversarial injection (docs/Architecture.md Section 8).",
+      "properties": {
+        "channel": {
+          "$ref": "#/$defs/InjectionChannel"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "channel",
+        "text"
+      ],
+      "title": "Injection",
+      "type": "object"
+    },
+    "InjectionChannel": {
+      "description": "docs/Architecture.md Section 8: \"each with a `channel`: `user_turn`,\n\n`tool_output` ... or `document`\".",
+      "enum": [
+        "user_turn",
+        "tool_output",
+        "document"
+      ],
+      "title": "InjectionChannel",
+      "type": "string"
+    },
+    "JsonValue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "array"
+        },
+        {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ScriptedTurn": {
+      "additionalProperties": false,
+      "description": "One (trigger, message) pair from docs/Architecture.md Section 8.",
+      "properties": {
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "trigger": {
+          "$ref": "#/$defs/TriggerKind"
+        }
+      },
+      "required": [
+        "trigger",
+        "message"
+      ],
+      "title": "ScriptedTurn",
+      "type": "object"
+    },
+    "StateAssertion": {
+      "additionalProperties": false,
+      "description": "A final-state assertion checked by the grader.\n\n``docs/MetricsSpec.md`` Section 2 refers to a final-state assertion marked\n``forbidden_state``; ``docs/Architecture.md`` Section 7 exposes\n``assert_state(path, predicate)``. The predicate vocabulary is not specified\nin the design - see the PR \"needs decision\" list.",
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "forbidden_state": {
+          "default": false,
+          "title": "Forbidden State",
+          "type": "boolean"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "predicate": {
+          "enum": [
+            "eq",
+            "neq",
+            "in",
+            "not_in",
+            "exists",
+            "not_exists",
+            "lt",
+            "gt"
+          ],
+          "title": "Predicate",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        }
+      },
+      "required": [
+        "path",
+        "predicate"
+      ],
+      "title": "StateAssertion",
+      "type": "object"
+    },
+    "Task": {
+      "additionalProperties": false,
+      "description": "One task: a cell (family, level, variant) per docs/PolicyTaxonomy.md Section 1.",
+      "properties": {
+        "allowed_tools": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$|^(refuse|finish|escalate_to_human|ask_clarification)$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Tools",
+          "type": "array"
+        },
+        "covariates": {
+          "$ref": "#/$defs/ComplexityCovariates"
+        },
+        "dataset_version": {
+          "minLength": 1,
+          "title": "Dataset Version",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "domain": {
+          "$ref": "#/$defs/Domain"
+        },
+        "expected_resolution": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExpectedResolution"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "family_id": {
+          "minLength": 1,
+          "title": "Family Id",
+          "type": "string"
+        },
+        "final_state_assertions": {
+          "items": {
+            "$ref": "#/$defs/StateAssertion"
+          },
+          "title": "Final State Assertions",
+          "type": "array"
+        },
+        "forbidden_calls": {
+          "items": {
+            "$ref": "#/$defs/ToolCall"
+          },
+          "title": "Forbidden Calls",
+          "type": "array"
+        },
+        "id": {
+          "maxLength": 128,
+          "pattern": "^[a-z0-9][a-z0-9_.\\-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "initial_state": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Initial State",
+          "type": "object"
+        },
+        "injections": {
+          "items": {
+            "$ref": "#/$defs/Injection"
+          },
+          "title": "Injections",
+          "type": "array"
+        },
+        "label": {
+          "$ref": "#/$defs/TaskLabel"
+        },
+        "level": {
+          "$ref": "#/$defs/ComplexityLevel"
+        },
+        "max_turns": {
+          "minimum": 1,
+          "title": "Max Turns",
+          "type": "integer"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "oracle_path": {
+          "items": {
+            "$ref": "#/$defs/ToolCall"
+          },
+          "title": "Oracle Path",
+          "type": "array"
+        },
+        "policy_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Policy Refs",
+          "type": "array"
+        },
+        "recoverable": {
+          "title": "Recoverable",
+          "type": "boolean"
+        },
+        "required_escalation_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Escalation Fields",
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scripted_turns": {
+          "items": {
+            "$ref": "#/$defs/ScriptedTurn"
+          },
+          "title": "Scripted Turns",
+          "type": "array"
+        },
+        "variant": {
+          "$ref": "#/$defs/AdversarialVariant"
+        }
+      },
+      "required": [
+        "dataset_version",
+        "id",
+        "family_id",
+        "level",
+        "variant",
+        "domain",
+        "label",
+        "allowed_tools",
+        "recoverable",
+        "covariates",
+        "max_turns"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "TaskLabel": {
+      "description": "docs/PolicyTaxonomy.md Section 5: exactly one label per task.",
+      "enum": [
+        "valid",
+        "should_refuse",
+        "should_escalate"
+      ],
+      "title": "TaskLabel",
+      "type": "string"
+    },
+    "ToolCall": {
+      "additionalProperties": false,
+      "description": "A deterministic tool-call step; used for oracle paths and forbidden calls.",
+      "properties": {
+        "args": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Args",
+          "type": "object"
+        },
+        "tool": {
+          "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$|^(refuse|finish|escalate_to_human|ask_clarification)$",
+          "title": "Tool",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool"
+      ],
+      "title": "ToolCall",
+      "type": "object"
+    },
+    "TriggerKind": {
+      "description": "docs/Architecture.md Section 8: \"A trigger is `start`, `after_tool:<name>`,\n\n`on_clarification:<key>`, or `on_denial`.\"",
+      "enum": [
+        "start",
+        "after_tool",
+        "on_clarification",
+        "on_denial"
+      ],
+      "title": "TriggerKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The dataset envelope loaded by the Dataset Loader.\n\ndocs/Architecture.md Section 4: \"Load and validate tasks, resolve\n``policy_refs``, check family consistency\". One file holds the families and\ntheir tasks; ``policybench validate`` resolves ``policy_refs`` against\n``--policies DIR``.",
+  "properties": {
+    "dataset_version": {
+      "minLength": 1,
+      "title": "Dataset Version",
+      "type": "string"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "families": {
+      "items": {
+        "$ref": "#/$defs/Family"
+      },
+      "minItems": 1,
+      "title": "Families",
+      "type": "array"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "tasks": {
+      "items": {
+        "$ref": "#/$defs/Task"
+      },
+      "minItems": 1,
+      "title": "Tasks",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dataset_version",
+    "name",
+    "families",
+    "tasks"
+  ],
+  "title": "Dataset",
+  "type": "object",
+  "x-policybench-schema-version": "1.0"
+}

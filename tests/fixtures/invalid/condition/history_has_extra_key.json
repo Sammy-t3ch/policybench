@@ -1,0 +1,7 @@
+{
+  "history_has": {
+    "tool": "customer.verify",
+    "where": {},
+    "limit": 3
+  }
+}
