@@ -1,0 +1,38 @@
+name: Bug Report
+description: Report a bug in the policy engine, simulators, replay grader, metrics, CLI, or dataset
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong and how does it diverge from the specification in docs/?
+    validations:
+      required: true
+  - type: input
+    id: design_ref
+    attributes:
+      label: Relevant Design Section
+      description: File and section number in docs/ (if applicable).
+      placeholder: "e.g., docs/MetricsSpec.md Section 2"
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction Steps
+      description: Exact CLI command, seed, dataset/policy hash, or minimal trace fixture to reproduce.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_vs_actual
+    attributes:
+      label: Expected vs. Actual Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: PolicyBench version/commit, Python version, OS, and backend (if runner-related).
+    validations:
+      required: false

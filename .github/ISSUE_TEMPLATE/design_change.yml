@@ -1,0 +1,30 @@
+name: Design Change Proposal
+description: Propose a change to the specification in docs/ (must precede any code change)
+title: "design: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Design changes must land as a documentation PR against `docs/*.md` before any implementation PR. Never modify the frozen archival originals in `docs/design-pdfs/`.
+  - type: input
+    id: target_docs
+    attributes:
+      label: Affected Document(s) and Section(s)
+      placeholder: "e.g., docs/Architecture.md Section 6.3, docs/DECISIONS.md"
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Problem or Ambiguity
+      description: Why is the current specification ambiguous, inconsistent, or insufficient?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Change
+      description: Exact proposed wording or schema change and its impact on validity, metrics, and replay compatibility.
+    validations:
+      required: true
