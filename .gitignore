@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Environments
+.venv/
+venv/
+
+# Tooling caches and outputs
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Traces are run outputs (Architecture v0.2 Section 13 and 11): the canonical JSONL
+# traces stay out of Git except fixtures used by tests and golden traces.
+traces/*
+!traces/.gitkeep
+!traces/fixtures/
+
+# Reports are generated artifacts, except committed samples.
+reports/*
+!reports/.gitkeep
+!reports/samples/
+
+# Derived SQLite index is always rebuildable from traces.
+*.sqlite
+*.sqlite3
+
+# Secrets and local configuration (never commit credentials)
+.env
+.env.*
+*.pem
+*.key
+
+# OS noise
+.DS_Store

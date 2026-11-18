@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Design documents
+    url: https://github.com/Sammy-t3ch/policybench/tree/main/docs
+    about: Read the design (Architecture, PolicyTaxonomy, MetricsSpec, Critique, Changelog) before filing.
+  - name: Contributing guide
+    url: https://github.com/Sammy-t3ch/policybench/blob/main/CONTRIBUTING.md
+    about: One branch and one pull request per phase; docs-first design changes.

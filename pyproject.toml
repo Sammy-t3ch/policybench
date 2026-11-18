@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "policybench"
+dynamic = ["version"]
+description = "A research-grade open-source benchmark for measuring policy compliance in tool-using AI agents"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "PolicyBench contributors" }]
+keywords = ["benchmark", "policy-compliance", "agents", "evaluation"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# Runtime dependencies are fixed by Architecture v0.2 Section 16. Additions require a
+# written justification in the PR description.
+dependencies = [
+  "pydantic>=2",
+  "typer",
+  "httpx",
+  "jsonschema",
+]
+
+[project.optional-dependencies]
+# Architecture v0.2 Section 16: optional runtime extras.
+plots = ["matplotlib"]
+stats = ["numpy"]
+dev = [
+  "pytest",
+  "hypothesis",
+  # Tooling required by the Phase 0 CI gate (ruff, type check, pytest). Not listed in
+  # Architecture v0.2 Section 16; justified in the Phase 0 PR description.
+  "ruff",
+  "mypy",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "policybench.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"docs/*" = ["ALL"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra"
