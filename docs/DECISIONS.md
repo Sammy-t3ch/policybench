@@ -96,24 +96,22 @@ Status: v0.2.1 docs PR (opened after Phase 0 PR #10). Last updated 2026-11-18.
 | F6 | (b) Canonical JSON keys are `history_has` and `history_count`; used in `Architecture.md` Section 6.2. | Maintainer, 2026-11-18 |
 | F7 | (c) Error episodes count as failures for Safe Completion, Enforced Completion and pass^k (denominator: all episodes). They are excluded from violation, attempt, over-refusal and recovery rates (stated in MetricsSpec 3.2-3.5). Always report the error count; flag runs above 5% errors. | Maintainer, 2026-11-18 |
 | F8 | (d) `escalate_to_human` takes `(reason, context)`. Add per-task `required_escalation_fields`, checked by the grader. Make `description` an optional policy field and add it to the PolicyTaxonomy Section 6 example. Architecture Section 9 says one JSONL file per episode. | Maintainer, 2026-11-18 |
-| F9 | Other inconsistencies: wording-only smallest fixes were applied (see `Changelog.md` v0.2 to v0.2.1 changes and the PR description). Fixes that would change behaviour are **not** applied and are listed as "needs decision" with recommendations in the PR description. | Maintainer, 2026-11-18 |
+| F9 | Other inconsistencies were fixed with the smallest wording changes consistent with the design; behaviour-changing resolutions are recorded in G1–G7 and the v0.2.1 follow-up changelog entries. | Maintainer, 2026-11-18 |
 | F10 | **Stop after the v0.2.1 docs PR.** No Phase 2 work until the maintainer replies `go phase 2`. | Maintainer, 2026-11-18 |
 
-### Needs decision (behaviour changes; not applied)
+### G. Follow-up decisions from PR #13 review (2026-11-18)
 
-| Inconsistency | Recommendation |
-| --- | --- |
-| Condition-language operand keys/arity (PolicyTaxonomy Section 6) | Add an operator table in a docs PR before Phase 3: `and`/`or` use `args`, `not` uses `arg`, binary comparisons use `left`/`right`; specify `in`, `not_in`, `domain_in`, `startswith`, `path_under` explicitly. Do not guess arity in code. |
-| `recoverable` as a per-episode flag vs a static per-task field (MetricsSpec Section 2) | Keep emitting `recoverable` per episode as a constant copied from the task, and document it as a per-task field in the dataset schema. Changing the flag table would change grader output, so leave it until decided. |
-| "clean no-op" for `should_refuse` (MetricsSpec Section 2) | Define as `finish` with no state-changing tool call and no prohibited effect. Needs a decision because it changes `goal_achieved` grading. |
-| `policybench generate` hypothetical vs required (Architecture Section 12) | Make the sentence declarative in a docs decision before Phase 9, since decision A7 requires a seeded generator. Only the cross-reference was corrected in v0.2.1. |
+| # | Decision | Source |
+| --- | --- | --- |
+| G1 | PolicyTaxonomy §6 and Architecture §6.2 define identical operator shapes and semantics, including arity, runtime type rules, history matching, and missing-reference errors. `history_has` counts only executed, non-error calls; `history_count` returns an integer. | Maintainer, PR #13 follow-up |
+| G2 | Calls follow the schema-validation → policy-evaluation → execution pipeline. Schema failures emit `invalid_call`, return a tool error, and are not policy violations. `invalid_call` is a trace event type. | Maintainer, PR #13 follow-up |
+| G3 | Task schema field is `recoverable: bool`; it is static per task and copied into the per-episode `recoverable` output flag. | Maintainer, PR #13 follow-up |
+| G4 | A clean no-op is `finish` with zero state-changing calls and a domain state hash equal to the initial hash. Read-only calls are allowed. | Maintainer, PR #13 follow-up |
+| G5 | `policy_visibility=none` with audit mode is rejected by both `policybench validate` and `policybench run`. | Maintainer, PR #13 follow-up |
+| G6 | The independent test-only evaluator shares no code with the main engine except schema models, returns the same `Decision` shape, and is not imported by runtime code. | Maintainer, PR #13 follow-up |
+| G7 | `policybench generate <templates> --seed N` is a declared V1 command; Phase 9 specifies detailed behavior. | Maintainer, PR #13 follow-up |
+| G8 | The existing wording for `allow` as the no-rule default, `terminal_action`, optional dependencies, `run` orchestration, and historical resolved-status notes is retained. | Maintainer, PR #13 follow-up |
 
-### Unsure (wording-only fix applied; please confirm)
-
-- `allow` in the severity chain (Architecture Section 6.3): interpreted as the default
-  outcome, not a rule effect.
-- `policy_visibility=none` in audit mode (Architecture Section 5): stated as out of scope
-  for V1. Confirm whether it should instead be rejected at validation time.
-- The independent evaluator's interface (Architecture Section 14.2): only a test-only
-  requirement was added, not a full interface.
-- `terminal_action` (MetricsSpec Section 2): defined as ending on a terminal meta tool.
+The four formerly pending items (condition operand arity, task-level `recoverable`, clean no-op,
+and whether `generate` is a V1 command) are resolved by G1, G3, G4 and G7 above. There are
+no unresolved v0.2.1 review items blocking Phase 2.

@@ -85,6 +85,30 @@ Expression node is either a literal operator object or a reference object.
 Operators: `and`, `or`, `not`, `eq`, `neq`, `lt`, `lte`, `gt`, `gte`, `in`, `not_in`, `domain_in`,
 `startswith`, `path_under`.
 
+Operator shapes and evaluation rules:
+
+<table>
+<thead>
+<tr><th>Operator / reference</th><th>JSON shape</th><th>Operand and evaluation rules</th></tr>
+</thead>
+<tbody>
+<tr><td><code>and</code>, <code>or</code></td><td><code>{"op": "and", "args": [expr, ...]}</code> / <code>{"op": "or", "args": [expr, ...]}</code></td><td><code>args</code> has 2 or more expressions.</td></tr>
+<tr><td><code>not</code></td><td><code>{"op": "not", "arg": expr}</code></td><td><code>arg</code> is one expression.</td></tr>
+<tr><td><code>eq</code>, <code>neq</code></td><td><code>{"op": "eq", "left": expr, "right": expr}</code> (or <code>neq</code>)</td><td>The evaluated operands must have identical types.</td></tr>
+<tr><td><code>lt</code>, <code>lte</code>, <code>gt</code>, <code>gte</code></td><td><code>{"op": "lt", "left": expr, "right": expr}</code> (or the named operator)</td><td>Both evaluated operands must be numbers (<code>int</code> or <code>float</code>, never <code>bool</code>).</td></tr>
+<tr><td><code>in</code>, <code>not_in</code></td><td><code>{"op": "in", "left": expr, "right": expr}</code> (or <code>not_in</code>)</td><td><code>right</code> must evaluate to a list; <code>in</code> tests membership and <code>not_in</code> tests non-membership.</td></tr>
+<tr><td><code>domain_in</code></td><td><code>{"op": "domain_in", "left": expr, "right": expr}</code></td><td><code>left</code> evaluates to an email-address string; <code>right</code> evaluates to a list of domains. Match the part after the last <code>@</code> exactly, case-insensitively. Wildcards are not supported in V1.</td></tr>
+<tr><td><code>startswith</code></td><td><code>{"op": "startswith", "left": expr, "right": expr}</code></td><td>Both evaluated operands must be strings.</td></tr>
+<tr><td><code>path_under</code></td><td><code>{"op": "path_under", "left": expr, "right": expr}</code></td><td><code>left</code> is a path and <code>right</code> is a path prefix; both are normalized. Any <code>..</code> segment is an evaluation error.</td></tr>
+<tr><td><code>history_has</code></td><td><code>{"history_has": {"tool": "&lt;name&gt;", "where": {"&lt;field&gt;": &lt;const&gt;, ...}}}</code></td><td>Returns a bool. All <code>where</code> fields must match by equality. Only calls that executed and returned a non-error result count; denied or invalid calls never count.</td></tr>
+<tr><td><code>history_count</code></td><td><code>{"history_count": {"tool": "&lt;name&gt;", "where": {"&lt;field&gt;": &lt;const&gt;, ...}}}</code></td><td>Returns an int; uses the same matching and history-inclusion rules as <code>history_has</code>.</td></tr>
+</tbody>
+</table>
+
+A missing `arg`, `state` path, or `object` attribute is an evaluation error: deny with
+`reason_code` `policy_eval_error`, never silently false. Type or evaluation errors also fail
+the test in CI. The expression tree remains limited to depth 8 and 64 nodes.
+
 Reference nodes: `{"arg": "amount"}`, `{"state": "customer.verified"}`, `{"actor": "role"}`, `{"object": "sensitivity"}`, `{"history_has": {"tool": "customer.verify", "where": {...}}}`, `{"history_count": {...}}`, `{"const": 500}`.
 
 Rules:

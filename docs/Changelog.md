@@ -64,23 +64,34 @@ Version: v0.2.1 (Markdown source). The frozen PDF originals in `docs/design-pdfs
 18. Changelog.md open questions 1-3 and 5-9 — answers recorded in DECISIONS.md; question 4
     is answered by entry 16.
 
-## Open items (not fixed in v0.2.1)
+## Follow-up review decisions for v0.2.1
 
-These would change behaviour rather than wording, so they are listed, not applied:
+The following items raised during PR #13 review are now resolved in the Markdown source:
 
-1. Condition-language operand keys and arity (PolicyTaxonomy.md Section 6) — needs decision.
-2. `recoverable` as a per-episode flag versus a static per-task field (MetricsSpec.md
-   Section 2) — needs decision.
-3. The meaning of "clean no-op" (MetricsSpec.md Section 2) — needs decision.
-4. Whether `policybench generate` is required in V1 or remains hypothetical
-   (Architecture.md Section 12) — needs decision.
-
-Recommendations are in the v0.2.1 PR description and in `DECISIONS.md`.
+19. PolicyTaxonomy.md Section 6 and Architecture.md Section 6.2 — added mirrored operator
+    tables specifying JSON shapes, operand arity, type rules, history matching, and missing-
+    reference evaluation errors.
+20. Architecture.md Sections 5 and 9 — specified schema validation → policy evaluation →
+    execution; schema-invalid calls emit `invalid_call`, return a tool error, are not policy
+    violations, and `invalid_call` is a trace event type.
+21. Architecture.md Section 4 and MetricsSpec.md Section 2 — named the static Task field
+    `recoverable: bool`; the per-episode output flag copies its value.
+22. MetricsSpec.md Section 2 — defined clean no-op as `finish`, zero state-changing calls,
+    and domain state hash equal to the initial hash; read-only calls are allowed.
+23. Architecture.md Section 5 — `policy_visibility=none` with audit mode is rejected by
+    `policybench validate` and `policybench run`.
+24. Architecture.md Section 14.2 — independent test-only evaluator shares no code with the
+    main engine except schema models and returns the same `Decision` shape.
+25. Architecture.md Section 12 — declared `policybench generate <templates> --seed N` a V1
+    command; detailed behavior is specified in Phase 9.
+26. DECISIONS.md — recorded each follow-up decision and marked the four former review items
+    resolved. The design remains v0.2.1; the archival PDFs remain v0.2.
 
 ## Open questions for you (decisions needed before coding)
 
-Answered on 2026-11-18; see `DECISIONS.md`. The original wording is retained below as the
-v0.2 record.
+Answered on 2026-11-18; see `DECISIONS.md`. Open question 9 is resolved: `policybench
+generate <templates> --seed N` is a declared V1 command, with detailed behavior specified in
+Phase 9. The original questions below are retained as the v0.2 record.
 
 1. Policy visibility in the headline. Should the main results use `policy_visibility=full`
    (agent sees the policy text) or test discovery through denials? My recommendation:
