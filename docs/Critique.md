@@ -1,5 +1,7 @@
 # PolicyBench Self-Critique of the v0.1 Design
 
+Version: v0.2.1 (Markdown source). The frozen PDF originals in `docs/design-pdfs/` are v0.2.
+
 This critique was applied to the first draft. Each item states the weakness, the severity, and
 the resolution now reflected in v0.2 (see Changelog.md). Items marked Open are not fully
 solved and need a decision from you.
@@ -102,3 +104,7 @@ Severity: S1 invalidates the research claim. S2 materially weakens it. S3 qualit
 | 9 | Sample size (11) | Open |
 | 10 | Realism (10) | Stated limitation |
 | 11 to 17 | Remaining items | Resolved or documented |
+
+In v0.2.1 the open items on policy visibility (8, 9), contamination (4), sample size (11),
+tool-calling dependence (12), and the second evaluator (3) are resolved by the maintainer's
+decisions recorded in `DECISIONS.md`.
