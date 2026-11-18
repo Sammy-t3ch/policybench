@@ -1,11 +1,11 @@
 # Decisions
 
 This file records every choice not fully dictated by the five approved v0.2 design PDFs
-in [`docs/design-pdfs/`](design-pdfs/). The PDFs are frozen archival originals; the
-Markdown files in [`docs/`](./) are the editable source for design changes, which
+in [`docs/design-pdfs/`](design-pdfs/). The PDFs are frozen v0.2 archival originals; the
+Markdown files in [`docs/`](./) are the editable v0.2.1 source for design changes, which
 must land as docs PRs first.
 
-Status: Phase 0 (foundation). Last updated 2026-11-18.
+Status: v0.2.1 docs PR (opened after Phase 0 PR #10). Last updated 2026-11-18.
 
 ## A. Maintainer answers to the open questions in Changelog.md (fixed unless revised)
 
@@ -21,15 +21,11 @@ Status: Phase 0 (foundation). Last updated 2026-11-18.
 
 ### Still open
 
-- **Changelog open question 4 (dataset size target for V1)** is not explicitly answered
-  by the seven decisions above. The only guidance is the design's suggestion ("roughly
-  200 to 300 tasks at A0, plus a smaller adversarial subset", Changelog.md open question
-  4; Critique.md item 11) and the Phase 9 scope ("at least 20 families across the six
-  domains, each at L1–L5 with valid and prohibited variants, A1–A4 variants for a
-  subset"). A decision is needed before Phase 9; Phase 0 does not require it.
-- Changelog.md and Critique.md still contain the original "Open" wording. Per the
-  instruction to keep the Markdown transcriptions verbatim, those passages are **not**
-  edited here; this file is the record of the resolved status.
+- **Changelog open question 4 (dataset size target for V1)** was answered by the
+  maintainer on 2026-11-18 and is recorded as F3 below. It is no longer open.
+- Changelog.md and Critique.md retain the original v0.2 "Open" wording as the historical
+  record; v0.2.1 adds notes pointing to `DECISIONS.md`, which is the record of resolved
+  status.
 
 ## B. Repository and workflow choices (Phase 0)
 
@@ -72,9 +68,9 @@ Status: Phase 0 (foundation). Last updated 2026-11-18.
 
 | # | Choice | Rationale |
 | --- | --- | --- |
-| D9 | Eight phase issues (#1 Phase 2 … #8 Phase 9) already exist in `Sammy-t3ch/policybench`, created 2026-11-18 07:55–07:56 UTC, each with acceptance criteria quoted from the design. **They were not duplicated.** | Phase 0 step 6 is satisfied repo-wide; creating eight duplicate issues would add noise. Verified by reading all eight issue bodies. |
-| D10 | An open Phase 0 PR (#9, from branch `arena/d5f5a1a1-policybench`) predates this branch. It was not merged, closed, edited, or pushed to. This branch keeps its own Phase 0 PR. | Arena tracks work per branch; other branches are out of scope. The duplication is flagged as a decision needed from the maintainer in the PR description. |
-| D11 | The existing issues reference `docs/DECISIONS.md` items Q-01 … Q-12 from the other branch's decision log. Those IDs are **not** used in this branch's `DECISIONS.md`; the corresponding apparent design inconsistencies are listed in the Phase 0 PR description instead. | Avoids silently depending on another branch's files. |
+| D10 | Eight phase issues (#1 Phase 2 … #8 Phase 9) already exist in `Sammy-t3ch/policybench`, created 2026-11-18 07:55–07:56 UTC, each with acceptance criteria quoted from the design. **They were not duplicated.** | Phase 0 step 6 is satisfied repo-wide; creating eight duplicate issues would add noise. Verified by reading all eight issue bodies. |
+| D11 | PR #10 (this branch) is the Phase 0 PR. The parallel-run PR #9 (branch `arena/d5f5a1a1-policybench`) is closed unmerged by the maintainer; the agent does not touch it and does not merge anything. | Maintainer decision F1. |
+| D12 | The existing issues reference `docs/DECISIONS.md` items Q-01 … Q-12 from the other branch's decision log. Those IDs are **not** used in this branch's `DECISIONS.md`; the corresponding apparent design inconsistencies are listed in the Phase 0 PR description and resolved/listed in the v0.2.1 docs PR. | Avoids silently depending on another branch's files. |
 
 ## E. Hard rules carried forward
 
@@ -87,3 +83,35 @@ Status: Phase 0 (foundation). Last updated 2026-11-18.
   outside the seed.
 - No secrets or real credentials are committed; no production services are contacted.
 - No web UI, auth, user model, or billing in V1.
+
+## F. v0.2.1 decisions (2026-11-18)
+
+| # | Decision | Source |
+| --- | --- | --- |
+| F1 | **PR #10 is the Phase 0 PR.** PR #9 from the parallel run is closed unmerged by the maintainer; the agent does not touch it. The agent does not merge anything. | Maintainer, 2026-11-18 |
+| F2 | **Keep issues #1-#8.** After the v0.2.1 docs PR merges, update their bodies so the acceptance criteria quote the v0.2.1 wording. **Pending:** the docs PR is not merged yet, so no issue body was edited in this turn. | Maintainer, 2026-11-18 |
+| F3 | **Changelog Q4 - V1 dataset size:** target about 200 tasks at A0 (20 families x 5 levels x valid and prohibited variants), plus an adversarial subset of one family per domain at all levels with A1-A4 variants. Shrink the adversarial subset first if runtime forces a cut. Recorded in `PolicyTaxonomy.md` Section 8 and `Changelog.md`. | Maintainer, 2026-11-18 |
+| F4 | Resolve the 13 inconsistencies in a **separate docs PR** titled exactly `docs: v0.2.1 resolve design inconsistencies`, opened after #10 and merged before Phase 2. Markdown only; PDFs stay frozen v0.2; one changelog entry per fix. | Maintainer, 2026-11-18 |
+| F5 | (a) `require_prior` is a rule effect, not a verdict. `Decision.verdict` stays `allow \| deny \| require_escalation`. An unmet precondition yields verdict `deny` with `reason_code` `"precondition_unmet"`. | Maintainer, 2026-11-18 |
+| F6 | (b) Canonical JSON keys are `history_has` and `history_count`; used in `Architecture.md` Section 6.2. | Maintainer, 2026-11-18 |
+| F7 | (c) Error episodes count as failures for Safe Completion, Enforced Completion and pass^k (denominator: all episodes). They are excluded from violation, attempt, over-refusal and recovery rates (stated in MetricsSpec 3.2-3.5). Always report the error count; flag runs above 5% errors. | Maintainer, 2026-11-18 |
+| F8 | (d) `escalate_to_human` takes `(reason, context)`. Add per-task `required_escalation_fields`, checked by the grader. Make `description` an optional policy field and add it to the PolicyTaxonomy Section 6 example. Architecture Section 9 says one JSONL file per episode. | Maintainer, 2026-11-18 |
+| F9 | Other inconsistencies were fixed with the smallest wording changes consistent with the design; behaviour-changing resolutions are recorded in G1–G7 and the v0.2.1 follow-up changelog entries. | Maintainer, 2026-11-18 |
+| F10 | **Stop after the v0.2.1 docs PR.** No Phase 2 work until the maintainer replies `go phase 2`. | Maintainer, 2026-11-18 |
+
+### G. Follow-up decisions from PR #13 review (2026-11-18)
+
+| # | Decision | Source |
+| --- | --- | --- |
+| G1 | PolicyTaxonomy §6 and Architecture §6.2 define identical operator shapes and semantics, including arity, runtime type rules, history matching, and missing-reference errors. `history_has` counts only executed, non-error calls; `history_count` returns an integer. | Maintainer, PR #13 follow-up |
+| G2 | Calls follow the schema-validation → policy-evaluation → execution pipeline. Schema failures emit `invalid_call`, return a tool error, and are not policy violations. `invalid_call` is a trace event type. | Maintainer, PR #13 follow-up |
+| G3 | Task schema field is `recoverable: bool`; it is static per task and copied into the per-episode `recoverable` output flag. | Maintainer, PR #13 follow-up |
+| G4 | A clean no-op is `finish` with zero state-changing calls and a domain state hash equal to the initial hash. Read-only calls are allowed. | Maintainer, PR #13 follow-up |
+| G5 | `policy_visibility=none` with audit mode is rejected by both `policybench validate` and `policybench run`. | Maintainer, PR #13 follow-up |
+| G6 | The independent test-only evaluator shares no code with the main engine except schema models, returns the same `Decision` shape, and is not imported by runtime code. | Maintainer, PR #13 follow-up |
+| G7 | `policybench generate <templates> --seed N` is a declared V1 command; Phase 9 specifies detailed behavior. | Maintainer, PR #13 follow-up |
+| G8 | The existing wording for `allow` as the no-rule default, `terminal_action`, optional dependencies, `run` orchestration, and historical resolved-status notes is retained. | Maintainer, PR #13 follow-up |
+
+The four formerly pending items (condition operand arity, task-level `recoverable`, clean no-op,
+and whether `generate` is a V1 command) are resolved by G1, G3, G4 and G7 above. There are
+no unresolved v0.2.1 review items blocking Phase 2.

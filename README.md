@@ -13,22 +13,23 @@ production credentials and connects to no production services.
 
 ## Status
 
-Phase 0 (foundation) only. The layout, the frozen design PDFs, their verbatim Markdown
+Phase 0 (foundation) only; the v0.2.1 design-inconsistency docs PR is open and must merge
+before Phase 2. The layout, the frozen design PDFs, their verbatim Markdown
 transcriptions, project metadata, and CI are in place. **No CLI commands, schemas,
 policy engine, simulators, evaluator, metrics, or dataset are implemented yet.** The
 `policybench` command will appear in later phases; see the [phase issues](https://github.com/Sammy-t3ch/policybench/issues).
 
 ## Design documents
 
-The approved design is v0.2. The Markdown files in [`docs/`](docs/) are the editable
+The approved design is v0.2.1. The Markdown files in [`docs/`](docs/) are the editable
 source for design changes (via docs PRs); the PDFs in
-[`docs/design-pdfs/`](docs/design-pdfs/) are byte-for-byte frozen archival originals.
+[`docs/design-pdfs/`](docs/design-pdfs/) are byte-for-byte frozen v0.2 originals.
 
 - [Architecture.md](docs/Architecture.md) — components, agent-environment protocol, policy engine, trace format, CLI, repo layout, tests
 - [PolicyTaxonomy.md](docs/PolicyTaxonomy.md) — levels L1–L5, adversarial axis A0–A4, matched families, condition language
 - [MetricsSpec.md](docs/MetricsSpec.md) — per-episode flags, metrics, statistics, baseline expectations
 - [Critique.md](docs/Critique.md) — why the design is the way it is, and remaining risks
-- [Changelog.md](docs/Changelog.md) — v0.1 → v0.2 changes and the open questions
+- [Changelog.md](docs/Changelog.md) — v0.1 → v0.2 changes, the v0.2.1 fixes, and the open questions
 - [DECISIONS.md](docs/DECISIONS.md) — choices not fully dictated by the attached design
 
 ## Quickstart (clean clone, Phase 0)
