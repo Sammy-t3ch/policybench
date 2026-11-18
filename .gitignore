@@ -1,0 +1,44 @@
+# Run artifacts: JSONL traces and generated reports are canonical/derived outputs,
+# not source. Fixtures and sample reports are intentionally committed.
+/traces/*
+!/traces/fixtures/
+/traces/fixtures/*
+!/traces/fixtures/.gitkeep
+/reports/*
+!/reports/samples/
+/reports/samples/*
+!/reports/samples/.gitkeep
+
+# Derived, rebuildable index (see docs/Architecture.md Section 11).
+index.sqlite
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local scratch (PDF extraction tooling, downloaded wheels, interpreters).
+.cache/
+
+# Secrets and local environment
+.env
+.env.*
+*.pem
+*.key
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

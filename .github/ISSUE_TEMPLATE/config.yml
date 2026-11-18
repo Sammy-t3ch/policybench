@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the v0.2 design
+    url: https://github.com/Sammy-t3ch/policybench/tree/main/docs
+    about: Architecture, PolicyTaxonomy, MetricsSpec, Critique, Changelog, and DECISIONS.
