@@ -1,0 +1,42 @@
+name: Implementation Phase
+description: Track a gated PolicyBench implementation phase with acceptance criteria from docs/
+title: "Phase N: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Each PolicyBench phase ships in a single reviewable PR and begins only after the previous phase PR is merged and the maintainer approves starting this phase.
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Summary of deliverables for this phase.
+    validations:
+      required: true
+  - type: textarea
+    id: design_refs
+    attributes:
+      label: Design References
+      description: Exact files and numbered sections in docs/ governing this phase.
+      placeholder: "e.g., docs/Architecture.md Section 6; docs/PolicyTaxonomy.md Section 6"
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria (Quoted from Design)
+      description: Verifiable criteria quoted directly from the v0.2 design documents and maintainer decisions.
+    validations:
+      required: true
+  - type: textarea
+    id: gate
+    attributes:
+      label: Preconditions and Review Gate
+      value: |
+        - Previous phase PR merged and maintainer replied `go phase N`.
+        - CI green on Python 3.12 (`ruff`, `mypy`, `pytest`).
+        - Non-dictated choices recorded in `docs/DECISIONS.md`.
+        - Do not self-merge; wait for maintainer review.
+    validations:
+      required: false
